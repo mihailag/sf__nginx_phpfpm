@@ -1,0 +1,13 @@
+---
+# tasks file for users
+- name: Add new user
+  user:
+    name: "{{ new_user_name }}"
+    shell: /bin/bash
+    state: present
+
+- name: Set authorized key from file
+  authorized_key:
+    user: "{{ new_user_name }}"
+    state: present
+    key: "{{ lookup('file', '{{ authorized_key }}') }}"

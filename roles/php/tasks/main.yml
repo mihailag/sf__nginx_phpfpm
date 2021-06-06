@@ -1,0 +1,30 @@
+---
+# tasks file for php
+- name: Install PHP PPA Repo
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: Install php{{ php_version }}-fpm
+  apt: 
+    name: php{{ php_version }}-fpm
+    state: present
+    update_cache: yes
+
+- name: Copy config
+  template: 
+    src: templates/www.conf.j2
+    dest: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
+    owner: root
+    group: root
+  notify:
+    - restart php-fpm service
+
+- name: Copy files
+  copy: 
+    src: files/
+    dest: "{{ app_work_dir }}"
+    owner: root
+    group: root
+  notify:
+    - restart php-fpm service

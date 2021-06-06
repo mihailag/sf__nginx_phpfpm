@@ -1,0 +1,16 @@
+[servers]
+nginx ansible_host=server1_ip
+phpfpm ansible_host=server2_ip
+
+[all:vars]
+ansible_user=ubuntu
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+new_user_name=new_user
+authorized_key=path_to_ssh_key
+
+php_version=7.4
+phpfpm_port=9000
+server_name=example.com
+app_work_dir=/var/www/html

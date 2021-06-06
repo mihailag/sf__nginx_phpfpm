@@ -1,0 +1,16 @@
+server {
+    listen 80;
+    root {{ app_work_dir }};
+    index index.php index.html;
+    server_name {{ server_name }};
+
+    location / {
+        index   index.php index.html;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass {{ hostvars['phpfpm'].ansible_host }}:{{ phpfpm_port }};
+    }
+}
